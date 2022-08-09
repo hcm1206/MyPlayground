@@ -144,11 +144,8 @@ class SoftmaxWithLoss:
         return dx
 
     def softmax(self, x):
-        c = np.max(x)
-        exp_x = np.exp(x-c)
-        sum_exp_x = np.sum(exp_x)
-        y = exp_x / sum_exp_x
-        return y
+        x = x - np.max(x, axis=-1, keepdims=True)
+        return np.exp(x) / np.sum(np.exp(x), axis=-1, keepdims=True)
 
     def cross_entrophy_error(self, y, t):
         delta = 1e-7
