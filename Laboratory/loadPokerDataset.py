@@ -14,3 +14,5 @@ with open(file, "rb") as fr:
 
 print(x_train[4])
 print(t_train[4])
+print(x_test[4])
+print(t_test[4])

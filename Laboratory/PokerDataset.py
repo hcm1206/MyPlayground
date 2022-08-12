@@ -9,19 +9,6 @@ class PokerDataset:
 
 
     
-    def loadTestData(self, one_hot_label=False):
-        
-        if one_hot_label:
-            for i, data in enumerate(self.t_train):
-                if data[0]:
-                    self.t_train[i] = [1]
-                else:
-                    self.t_train[i] = [0]
-
-        for i, data in enumerate(self.t_train):
-                if data[0]:
-                    self.t_train[i] = [1]
-                else:
-                    self.t_train[i] = [0]
+    def loadTestData(self):
 
         return (self.x_train, self.t_train), (self.x_test, self.t_test)

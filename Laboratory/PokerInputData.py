@@ -27,9 +27,9 @@ for i in range(10000):
     myScore = getScore(myDeck)
 
     if cpuScore < myScore:
-        win = np.array([0,1])
+        win = np.array([0])
     else:
-        win = np.array([1,0])
+        win = np.array([1])
 
     x_train.append(cpuDeck)
     t_train.append(win)
@@ -48,9 +48,9 @@ for i in range(2000):
     myScore = getScore(myDeck)
 
     if cpuScore < myScore:
-        win = np.array([0,1])
+        win = np.array([0])
     else:
-        win = np.array([1,0])
+        win = np.array([1])
 
     x_test.append(cpuDeck)
     t_test.append(win)
@@ -62,5 +62,3 @@ with open("PokerTestDataSet.pickle", "wb") as fw:
 
 with open("PokerTestDataSet.pickle", "rb") as fr:
     dataset = pickle.load(fr)
-
-_x_train, _t_train, _x_test, _t_test = dataset.loadTestData()

@@ -6,6 +6,7 @@ import tensorflow as tf
 import numpy as np
 import os
 import pickle
+from keras import regularizers
 
 
 # 데이터 불러오기
@@ -20,7 +21,9 @@ with open(file, "rb") as fr:
 # 텐서플로우 딥러닝 모델 생성
 model = tf.keras.models.Sequential([ # 딥러닝 신경망 모델 생성
     tf.keras.layers.Dense(64, activation='tanh'), # 64개의 노드를 가진 은닉층 1 (활성화 함수는 tanh)
+    # tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Dense(128, activation='tanh'), # 128개의 노드를 가진 은닉층 2
+    # tf.keras.layers.Dropout(0.3),
     tf.keras.layers.Dense(128, activation='tanh'), # 128개의 노드를 가진 은닉층 2
     tf.keras.layers.Dense(1, activation='sigmoid'), # 출력층(0~1 사이의 확률 결과를 원하므로 활성화 함수로 시그모이드 함수 사용)
 ])
@@ -29,10 +32,29 @@ model = tf.keras.models.Sequential([ # 딥러닝 신경망 모델 생성
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy']) 
 
 # 모델 딥러닝 학습 (x 데이터는 입력값, y 데이터는 정답 레이블, 에폭)
-model.fit(np.array(x_train), np.array(t_train), epochs=1000)
+history_model = model.fit(np.array(x_train), np.array(t_train), epochs=750)
 
 # 테스트 파일 임의로 2개 불러와서 예측 결과와 실제 정답 비교
-predict = model.predict([x_test[10], x_test[321]])
-answer = t_test[10], t_test[321]
-print(predict)
-print(answer)
+test_loss, test_acc = model.evaluate(x_test, t_test, verbose=100)
+print(test_acc)
+
+import matplotlib.pyplot as plt
+
+plt.clf()
+history_dict = history_model.history
+
+plt.plot(history_dict['accuracy'], markevery=50)
+plt.ylim(0, 1.0)
+plt.title('Model accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.legend(['Train'], loc='upper left')
+plt.show()
+
+
+plt.plot(history_dict['loss'], markevery=50)
+plt.title('Model loss')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.legend(['Train'], loc='upper left')
+plt.show()
